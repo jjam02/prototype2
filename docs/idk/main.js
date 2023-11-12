@@ -49,7 +49,6 @@ function update() {
       isFiringLeft: true,
     };
   }
-
   updateRect();
   if (input.isPressed) {
     rect(player.pos.x, 20, G.WIDTH - player.pos.x, G.HEIGHT - 20);
@@ -60,8 +59,13 @@ function update() {
 }
 
 function updateRect() {
-  rect(player.pos.x + 10, 20, G.WIDTH - player.pos.x, G.HEIGHT - 20);
-  rect(0, 20, player.pos.x - 10, G.HEIGHT - 20);
+  color("black");
+  rect(player.pos.x + 3, 20, G.WIDTH - player.pos.x, G.HEIGHT - 20);
+  rect(0, 20, player.pos.x - 3, G.HEIGHT - 20);
+
+  rect(player.pos.x - 10, 20, 20, player.pos.y - 23);
+
+  rect(player.pos.x - 10, player.pos.y + 5, 20, G.HEIGHT);
 }
 
 // helper function - generates random number between min and max (inclusive)
