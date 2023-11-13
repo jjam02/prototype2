@@ -103,15 +103,12 @@ function update() {
   const wall = char("a", player.pos).isColliding.rect.red;
 
   if (input.isPressed || input.pos.y > 80 || input.pos.y < 20 || wall) {
-    // color("black");
-    // rect(player.pos.x, 20, G.WIDTH - player.pos.x, G.HEIGHT - 20);
-    // rect(0, 20, player.pos.x, G.HEIGHT - 20);
   } else {
     color("black");
     updateRect();
   }
 
-  text("Cubes\ncollected:  /6", 3, 10, {
+  text("Cubes\ncollected:" + found.toString() + "/6", 3, 10, {
     color: "black",
     scale: { x: 1, y: 1 },
   });
