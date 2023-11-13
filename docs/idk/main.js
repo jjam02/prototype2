@@ -71,6 +71,7 @@ let found = 0;
 
 function update() {
   if (!ticks) {
+    found = 0;
     player = {
       pos: vec(G.WIDTH * 0.5, G.HEIGHT * 0.5),
     };
@@ -80,7 +81,7 @@ function update() {
     G.VIEW = 4;
     G.VIEW2 = 23;
     maze.grid = [
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 1, 0, 1, 0, 2, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 2, 0],
       [0, 1, 1, 1, 0, 0, 1, 0, 0, 2, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0],
       [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
@@ -101,22 +102,33 @@ function update() {
 
   char("a", player.pos);
   const wall = char("a", player.pos).isColliding.rect.red;
+  const win = char("a", player.pos).isColliding.rect.yellow;
+  if (win) {
+    end("GGWP YOU WIN!!!!");
+  }
 
-  if (input.isPressed || input.pos.y > 80 || input.pos.y < 20 || wall) {
+  if (input.pos.y > 80 || input.pos.y < 20 || wall) {
+    text("Cubes\ncollected:" + found.toString() + "/6", 3, 10, {
+      color: "black",
+    });
+  } else if (found / 6 == 1) {
+    text("ESCAPE!!!", 3, 10, {
+      color: "black",
+    });
   } else {
+    text("Cubes\ncollected:" + found.toString() + "/6", 3, 10, {
+      color: "black",
+    });
     color("black");
     updateRect();
   }
 
-  text("Cubes\ncollected:" + found.toString() + "/6", 3, 10, {
-    color: "black",
-    scale: { x: 1, y: 1 },
-  });
   console.log(player.pos);
 
   const grow = char("a", player.pos).isColliding.rect.green;
 
   if (grow) {
+    found += 1;
     play("powerUp");
     G.VIEW += 1;
     G.VIEW2 += 0.5;
@@ -155,6 +167,10 @@ function drawMaze(maze) {
         color("green");
         //console.log("rect,", colIndex, rowIndex);
         rect(colIndex * maze.scale + 1, rowIndex * maze.scale + 21, 1);
+      } else if (cell == 3) {
+        color("yellow");
+        //console.log("rect,", colIndex, rowIndex);
+        rect(colIndex * maze.scale, rowIndex * maze.scale + 20, maze.scale);
       }
     });
   });
